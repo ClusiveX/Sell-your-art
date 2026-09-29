@@ -3,102 +3,556 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Canvas & Ink — Art Shop</title>
+
+<title>Canvas & Ink — Fine Art</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#faf9f7;color:#222}
-header{padding:18px 7%;background:#fff;border-bottom:1px solid #e5e5e5;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:22px;font-weight:bold;letter-spacing:.5px}
-nav a{margin-left:20px;text-decoration:none;color:#444;font-size:14px}
-.hero{padding:70px 7%;text-align:center;background:#eeeae4}
-.hero h1{margin:0 0 12px;font-size:clamp(34px,7vw,60px)}
-.hero p{max-width:600px;margin:auto;color:#555;line-height:1.6}
-.products{padding:50px 7%}.products h2{text-align:center;margin-bottom:30px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px;max-width:1000px;margin:auto}
-.product{background:#fff;border-radius:14px;overflow:hidden;border:1px solid #e5e5e5}
-.art{height:190px;display:flex;align-items:center;justify-content:center;font-size:55px;background:#e7dfd5}
-.product-info{padding:18px}.product-info h3{margin:0 0 7px}.price{color:#555;margin-bottom:14px}
-.shop-btn{width:100%;padding:10px;border:0;border-radius:8px;background:#222;color:#fff;cursor:pointer}
-.challenge{margin:20px auto 60px;max-width:700px;padding:30px;text-align:center;background:#fff;border:1px solid #ddd;border-radius:18px}
-.challenge h2{margin-top:0}.challenge p{color:#555;line-height:1.6}
-.consent{display:flex;align-items:flex-start;gap:10px;text-align:left;max-width:550px;margin:20px auto;font-size:14px}
-.location-btn{padding:13px 22px;border:0;border-radius:9px;background:#222;color:#fff;font-size:15px;cursor:pointer}
-.location-btn:disabled{opacity:.6;cursor:wait}
-#result{margin-top:20px;font-weight:bold;line-height:1.5}
-footer{padding:30px;text-align:center;background:#222;color:#aaa;font-size:13px}
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #f7f5f0;
+    color: #171717;
+    font-family: "Inter", sans-serif;
+}
+
+/* NAVBAR */
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(247,245,240,0.88);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+nav {
+    max-width: 1250px;
+    margin: auto;
+    height: 76px;
+    padding: 0 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-family: "DM Serif Display", serif;
+    font-size: 26px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 35px;
+    list-style: none;
+}
+
+.nav-links a {
+    color: #171717;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.cart {
+    border: 1px solid #171717;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-size: 13px;
+}
+
+/* HERO */
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 7% 70px;
+    background:
+        radial-gradient(circle at 80% 30%, #ded9ce 0, transparent 35%),
+        #f7f5f0;
+}
+
+.hero-content {
+    max-width: 1250px;
+    margin: auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+    align-items: center;
+}
+
+.hero h1 {
+    font-family: "DM Serif Display", serif;
+    font-size: clamp(55px, 7vw, 100px);
+    line-height: .95;
+    font-weight: 400;
+}
+
+.hero p {
+    margin-top: 30px;
+    max-width: 480px;
+    line-height: 1.8;
+    color: #656565;
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 35px;
+    background: #171717;
+    color: white;
+    padding: 15px 28px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: .3s;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    background: #333;
+}
+
+.hero-art {
+    height: 600px;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.hero-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* SECTION */
+
+section {
+    max-width: 1250px;
+    margin: auto;
+    padding: 110px 25px;
+}
+
+.section-title {
+    font-family: "DM Serif Display", serif;
+    font-size: 52px;
+    font-weight: 400;
+}
+
+.section-subtitle {
+    color: #777;
+    margin-top: 10px;
+}
+
+/* PRODUCTS */
+
+.products {
+    margin-top: 55px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.card {
+    background: white;
+    padding-bottom: 25px;
+    transition: .35s;
+}
+
+.card:hover {
+    transform: translateY(-7px);
+}
+
+.card-image {
+    height: 400px;
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: .5s;
+}
+
+.card:hover img {
+    transform: scale(1.04);
+}
+
+.card-info {
+    padding: 22px 22px 0;
+}
+
+.card-info h3 {
+    font-family: "DM Serif Display", serif;
+    font-size: 25px;
+    font-weight: 400;
+}
+
+.card-info p {
+    margin-top: 6px;
+    color: #777;
+    font-size: 13px;
+}
+
+.price {
+    margin-top: 15px;
+    font-weight: 600;
+}
+
+/* ABOUT */
+
+.about {
+    background: #171717;
+    color: white;
+    max-width: none;
+}
+
+.about-inner {
+    max-width: 1250px;
+    margin: auto;
+    padding: 110px 25px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.about h2 {
+    font-family: "DM Serif Display", serif;
+    font-size: 60px;
+    font-weight: 400;
+}
+
+.about p {
+    color: #aaa;
+    line-height: 1.9;
+    margin-top: 25px;
+}
+
+.about-image {
+    height: 500px;
+}
+
+.about-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* COLLECTION */
+
+.collection {
+    text-align: center;
+}
+
+.collection p {
+    max-width: 600px;
+    margin: 20px auto;
+    color: #777;
+}
+
+.collection-btn {
+    display: inline-block;
+    margin-top: 20px;
+    border: 1px solid #171717;
+    padding: 14px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    color: #171717;
+}
+
+/* FOOTER */
+
+footer {
+    background: #111;
+    color: white;
+    padding: 60px 25px;
+}
+
+.footer-inner {
+    max-width: 1250px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-logo {
+    font-family: "DM Serif Display", serif;
+    font-size: 30px;
+}
+
+footer p {
+    color: #777;
+    font-size: 13px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 850px) {
+
+    .nav-links {
+        display: none;
+    }
+
+    .hero-content {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-art {
+        height: 450px;
+    }
+
+    .products {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .about-inner {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 550px) {
+
+    .hero {
+        padding-top: 110px;
+    }
+
+    .hero h1 {
+        font-size: 55px;
+    }
+
+    .products {
+        grid-template-columns: 1fr;
+    }
+
+    .card-image {
+        height: 450px;
+    }
+
+    .about h2 {
+        font-size: 45px;
+    }
+
+    .footer-inner {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+}
 </style>
 </head>
+
 <body>
 
 <header>
-  <div class="logo">Canvas & Ink</div>
-  <nav><a href="#shop">Shop</a><a href="#challenge">Challenge</a></nav>
+<nav>
+    <div class="logo">Canvas & Ink</div>
+
+    <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#shop">Shop</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <div class="cart">Cart (0)</div>
+</nav>
 </header>
 
-<section class="hero">
-  <h1>Art Made Personal.</h1>
-  <p>Original artwork, prints and creative pieces made for people who love art.</p>
+
+<!-- HERO -->
+
+<div class="hero" id="home">
+<div class="hero-content">
+
+    <div>
+        <h1>Art that<br>feels alive.</h1>
+
+        <p>
+            Discover carefully crafted original artworks and limited
+            edition prints created for collectors who appreciate
+            timeless creativity.
+        </p>
+
+        <a href="#shop" class="btn">Explore Collection →</a>
+    </div>
+
+    <div class="hero-art">
+        <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=1200&q=85">
+    </div>
+
+</div>
+</div>
+
+
+<!-- SHOP -->
+
+<section id="shop">
+
+    <h2 class="section-title">Selected Works</h2>
+    <p class="section-subtitle">
+        Original pieces and limited edition artwork.
+    </p>
+
+    <div class="products">
+
+        <div class="card">
+            <div class="card-image">
+                <img src="https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=900&q=85">
+            </div>
+
+            <div class="card-info">
+                <h3>Golden Silence</h3>
+                <p>Original Artwork · 2026</p>
+                <div class="price">₹4,999</div>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-image">
+                <img src="https://images.unsplash.com/photo-1577083552431-6e5fd01988e5?auto=format&fit=crop&w=900&q=85">
+            </div>
+
+            <div class="card-info">
+                <h3>Quiet Evening</h3>
+                <p>Fine Art Print · Limited Edition</p>
+                <div class="price">₹2,499</div>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-image">
+                <img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?auto=format&fit=crop&w=900&q=85">
+            </div>
+
+            <div class="card-info">
+                <h3>Inner World</h3>
+                <p>Original Artwork · 2026</p>
+                <div class="price">₹6,999</div>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-image">
+                <img src="https://images.unsplash.com/photo-1577083288073-40892c0860a4?auto=format&fit=crop&w=900&q=85">
+            </div>
+
+            <div class="card-info">
+                <h3>Fragments</h3>
+                <p>Fine Art Print · Limited Edition</p>
+                <div class="price">₹2,999</div>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-image">
+                <img src="https://images.unsplash.com/photo-1547891654-e66ed7ebb968?auto=format&fit=crop&w=900&q=85">
+            </div>
+
+            <div class="card-info">
+                <h3>Dream State</h3>
+                <p>Original Artwork · 2026</p>
+                <div class="price">₹5,499</div>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-image">
+                <img src="https://images.unsplash.com/photo-1577083552431-6e5fd01988e5?auto=format&fit=crop&w=900&q=85">
+            </div>
+
+            <div class="card-info">
+                <h3>After Rain</h3>
+                <p>Limited Edition · 50 Prints</p>
+                <div class="price">₹3,499</div>
+            </div>
+        </div>
+
+    </div>
 </section>
 
-<section class="products" id="shop">
-  <h2>Featured Artwork</h2>
-  <div class="grid">
-    <article class="product">
-      <div class="art">🎨</div>
-      <div class="product-info"><h3>Dreamscape</h3><div class="price">₹499</div><button class="shop-btn">View Artwork</button></div>
-    </article>
-    <article class="product">
-      <div class="art">🌙</div>
-      <div class="product-info"><h3>Moonlight</h3><div class="price">₹699</div><button class="shop-btn">View Artwork</button></div>
-    </article>
-    <article class="product">
-      <div class="art">🌸</div>
-      <div class="product-info"><h3>Bloom</h3><div class="price">₹599</div><button class="shop-btn">View Artwork</button></div>
-    </article>
-  </div>
+
+<!-- ABOUT -->
+
+<div class="about" id="about">
+
+<div class="about-inner">
+
+    <div>
+        <h2>Made slowly.<br>Made with meaning.</h2>
+
+        <p>
+            Canvas & Ink is an independent art studio focused on
+            creating expressive artwork with a modern aesthetic.
+            Every piece is created with attention to detail,
+            texture and atmosphere.
+        </p>
+
+        <a href="#contact" class="btn">Work With Us</a>
+    </div>
+
+    <div class="about-image">
+        <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=1200&q=85">
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- COLLECTION -->
+
+<section class="collection">
+
+    <h2 class="section-title">Build Your Collection</h2>
+
+    <p>
+        Bring character to your space with artwork created to
+        complement modern interiors and personal collections.
+    </p>
+
+    <a href="#shop" class="collection-btn">
+        View All Artwork
+    </a>
+
 </section>
 
-<section class="challenge" id="challenge">
-  <h2>📍 Location Challenge</h2>
-  <p>Want to test the website's location experiment?</p>
-  <p>With your permission, this page can use your public IP address to estimate your <strong>city and region</strong>. It does not request GPS access or your exact street address.</p>
 
-  <label class="consent">
-    <input type="checkbox" id="consent">
-    <span>I understand and agree to the approximate IP-based location lookup.</span>
-  </label>
+<!-- CONTACT -->
 
-  <button class="location-btn" id="locationButton" disabled>Reveal Approximate Location</button>
-  <div id="result"></div>
-</section>
+<footer id="contact">
 
-<footer>© 2026 Canvas & Ink — Art Demo</footer>
+<div class="footer-inner">
 
-<script>
-const consent=document.getElementById("consent");
-const button=document.getElementById("locationButton");
-const result=document.getElementById("result");
+    <div class="footer-logo">
+        Canvas & Ink
+    </div>
 
-consent.addEventListener("change",()=>{button.disabled=!consent.checked});
+    <p>
+        © 2026 Canvas & Ink · Fine Art Studio
+    </p>
 
-button.addEventListener("click",async()=>{
-  button.disabled=true;
-  result.textContent="Checking approximate location...";
-  try{
-    const response=await fetch("https://ipapi.co/json/");
-    if(!response.ok) throw new Error("Location service unavailable");
-    const data=await response.json();
-    const city=data.city||"Unknown city";
-    const region=data.region||"Unknown region";
-    const country=data.country_name||"Unknown country";
-    result.innerHTML=`📍 Approximate location:<br>${city}, ${region}, ${country}`;
-  }catch(error){
-    result.textContent="Unable to determine approximate location.";
-  }finally{
-    button.disabled=false;
-  }
-});
-</script>
+</div>
+
+</footer>
 
 </body>
 </html>
